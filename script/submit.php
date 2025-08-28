@@ -4,18 +4,16 @@ require '../lib/utilities.php';
 
 // Build prompt
 $prompt = <<<END
-INSTRUCTIONS:
-- Return plain text
-- Use <br> to separate content
-- Use <ol> for lists
-- use <a> for links put the link in href attribute use an arbitrary content for the inner HTML
+INSTRUCTION
+	Don't use special characters to format your response
+	Use tags, as your response will be viewed on a browser
 
-PROMPT:
+PROMPT
 {$_POST['prompt']}
 END;
 
 // Prepare API request
-$api_key = 'AIzaSyBLMdPro8hYwTFPMsBB77wpH-C6Du0uBzw';
+$api_key = 'AIzaSyB0RKqdyLcE2j8SPjbvGbJq4EcmX9nBzCc';
 $url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent";
 
 $headers = [
