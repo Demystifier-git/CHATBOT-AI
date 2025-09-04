@@ -50,7 +50,7 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: |
           sonar-scanner \
-            -Dsonar.projectKey=Demystifier-git_Containerizing-a-simple-social-media-app \
+            -Dsonar.projectKey=Demystifier-git_CHATBOT-AI \
             -Dsonar.organization=demystifier-git \
             -Dsonar.host.url=https://sonarcloud.io \
             -Dsonar.login=${SONAR_TOKEN} \
