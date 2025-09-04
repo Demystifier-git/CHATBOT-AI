@@ -25,10 +25,6 @@ jobs:
         run: composer install --prefer-dist --no-progress
         working-directory: ./frontend
 
-      - name: Install dependencies (backend)
-        run: composer install --prefer-dist --no-progress
-        working-directory: ./backend
-
       - name: Set up JDK for SonarScanner
         uses: actions/setup-java@v3
         with:
@@ -58,6 +54,7 @@ jobs:
             -Dsonar.organization=demystifier-git \
             -Dsonar.host.url=https://sonarcloud.io \
             -Dsonar.login=${SONAR_TOKEN} \
-            -Dsonar.sources=./frontend,./backend
+            -Dsonar.sources=./frontend \
+            -Dsonar.exclusions=**/vendor/**
 
 
