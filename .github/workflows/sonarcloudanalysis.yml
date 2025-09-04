@@ -21,9 +21,16 @@ jobs:
           php-version: '8.2'
           extensions: xdebug
 
-      - name: Install dependencies (frontend)
+      # Only run composer if frontend contains PHP code
+      - name: Install dependencies
+        if: hashFiles('frontend/composer.json') != ''
         run: composer install --prefer-dist --no-progress
         working-directory: ./frontend
+
+      # Skip PHPUnit if you don’t have tests yet
+      # - name: Run PHPUnit with coverage
+      #   run: ./vendor/bin/phpunit --coverage-clover=coverage.xml
+      #   working-directory: ./frontend    
 
       - name: Set up JDK for SonarScanner
         uses: actions/setup-java@v3
@@ -55,6 +62,6 @@ jobs:
             -Dsonar.host.url=https://sonarcloud.io \
             -Dsonar.login=${SONAR_TOKEN} \
             -Dsonar.sources=./frontend \
-            -Dsonar.exclusions=**/vendor/**
-
+            -Dsonar.php.coverage.reportPaths=coverage.xml \
+            -Dsonar.branch.name=main
 
