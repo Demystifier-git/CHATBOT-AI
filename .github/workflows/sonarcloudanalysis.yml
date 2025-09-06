@@ -56,8 +56,9 @@ jobs:
             -Dsonar.projectKey=Demystifier-git_CHATBOT-AI \
             -Dsonar.organization=demystifier-git \
             -Dsonar.host.url=https://sonarcloud.io \
-            -Dsonar.token=${SONAR_TOKEN} \   # ✅ use sonar.token, not sonar.login
+            -Dsonar.token=${SONAR_TOKEN} \
             -Dsonar.sources=./frontend \
             -Dsonar.branch.name=main
+
 
 
