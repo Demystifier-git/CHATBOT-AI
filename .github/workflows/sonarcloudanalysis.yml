@@ -21,13 +21,16 @@ jobs:
           php-version: '8.2'
           extensions: xdebug
 
+      # Only run composer if frontend contains PHP code
       - name: Install dependencies
+        if: hashFiles('frontend/composer.json') != ''
         run: composer install --prefer-dist --no-progress
         working-directory: ./frontend
 
-      - name: Run PHPUnit with coverage
-        run: ./vendor/bin/phpunit --coverage-clover=coverage.xml
-        working-directory: ./frontend    
+      # Skip PHPUnit if you don’t have tests yet
+      # - name: Run PHPUnit with coverage
+      #   run: ./vendor/bin/phpunit --coverage-clover=coverage.xml
+      #   working-directory: ./frontend    
 
       - name: Set up JDK for SonarScanner
         uses: actions/setup-java@v3
@@ -44,19 +47,21 @@ jobs:
 
       - name: Install SonarScanner CLI
         run: |
-         wget https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-5.0.1.3006-linux.zip
-         unzip sonar-scanner-cli-5.0.1.3006-linux.zip
-         mv sonar-scanner-5.0.1.3006-linux sonar-scanner
-         echo "${GITHUB_WORKSPACE}/sonar-scanner/bin" >> $GITHUB_PATH    
+          wget https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-5.0.1.3006-linux.zip
+          unzip sonar-scanner-cli-5.0.1.3006-linux.zip
+          mv sonar-scanner-5.0.1.3006-linux sonar-scanner
+          echo "${GITHUB_WORKSPACE}/sonar-scanner/bin" >> $GITHUB_PATH    
 
       - name: Run SonarCloud analysis
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: |
           sonar-scanner \
-            -Dsonar.projectKey=Demystifier-git_Containerizing-a-simple-social-media-app \
+            -Dsonar.projectKey=Demystifier-git_CHATBOT-AI \
             -Dsonar.organization=demystifier-git \
             -Dsonar.host.url=https://sonarcloud.io \
             -Dsonar.login=${SONAR_TOKEN} \
-            -Dsonar.php.coverage.reportPaths=coverage.xml
+            -Dsonar.sources=./frontend \
+            -Dsonar.php.coverage.reportPaths=coverage.xml \
+            -Dsonar.branch.name=main
 
