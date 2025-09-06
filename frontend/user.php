@@ -1,11 +1,11 @@
 <?php
-require "lib/utilities.php";
+require_once "lib/utilities.php";
 
 // get ip
 $ip = $_GET['ip'];
 
 // fetch users
-require "lib/connect_to_db.php";
+require_once "lib/connect_to_db.php";
 $sql = "SELECT id, prompt, response, timestamp FROM chats WHERE ip = ?";
 $chats = queryDB($mysqli, $sql, "s", $ip);
 $mysqli->close();
@@ -71,7 +71,7 @@ $mysqli->close();
 	<section>
 		<div class="container">
 			<?php if (count($chats)): ?>
-				<h2>Prompts from user: <?php echo $ip ?></h2>
+				<h2>Prompts from user: <?php echo htmlspecialchars($ip, ENT_QUOTES, 'UTF-8'); ?></h2>
 				<table>
 					<thead>
 						<tr>
@@ -84,16 +84,16 @@ $mysqli->close();
 					<tbody>
 						<?php foreach ($chats as $chat): ?>
 							<tr>
-								<td><?php echo $chat['id'] ?></td>
-								<td><?php echo $chat['prompt'] ?></td>
-								<td><?php echo $chat['response'] ?></td>
-								<td><?php echo $chat['timestamp'] ?></td>
+								<td><?php echo htmlspecialchars($chat['id'], ENT_QUOTES, 'UTF-8'); ?></td>
+								<td><?php echo htmlspecialchars($chat['prompt'], ENT_QUOTES, 'UTF-8'); ?></td>
+								<td><?php echo htmlspecialchars($chat['response'], ENT_QUOTES, 'UTF-8'); ?></td>
+								<td><?php echo htmlspecialchars($chat['timestamp'], ENT_QUOTES, 'UTF-8'); ?></td>
 							</tr>
 						<?php endforeach; ?>
 					</tbody>
 				</table>
 			<?php else: ?>
-				<p>No prompts from user: <b><?php echo $ip ?></b></p>
+				<p>No prompts from user: <b><?php echo htmlspecialchars($ip, ENT_QUOTES, 'UTF-8'); ?></b></p>
 			<?php endif; ?>
 		</div>
 	</section>

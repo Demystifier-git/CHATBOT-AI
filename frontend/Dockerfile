@@ -12,13 +12,14 @@ RUN apt-get update && apt-get install -y \
         git \
         curl \
     && docker-php-ext-install mysqli pdo pdo_mysql \
-    && a2enmod status  # <-- Enable mod_status here
+    && a2enmod status \
+    && rm -rf /var/lib/apt/lists/*   # cleanup apt cache
 
 # Set working directory
 WORKDIR /var/www/html
 
 # Copy application files
-COPY . . /var/www/html
+COPY .  /var/www/html
 
 # Expose port 80
 EXPOSE 80

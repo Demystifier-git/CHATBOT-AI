@@ -1,15 +1,12 @@
 <?php
-// Database connection (using demo credentials for SonarQube test)
+
 $mysqli = new mysqli(
-    "mysql",              // Host
-    "demo_user",          // Username
-    "DEMO_SECRET_PASS_123", // Password (fake secret for demo)
-    "AIBOT"               // Database name
+    getenv("DB_HOST"),
+    getenv("DB_USER"),
+    getenv("DB_PASS"),
+    getenv("DB_NAME")
 );
 
-// Check connection
 if ($mysqli->connect_error) {
-    die("❌ Connection failed: " . $mysqli->connect_error);
+    die("Database connection failed");
 }
-
-echo "✅ Connected successfully to database (demo).";

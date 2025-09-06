@@ -1,6 +1,6 @@
 <?php
 
-require '../lib/utilities.php';
+require_once '../lib/utilities.php';
 
 // Build prompt
 $prompt = <<<END
@@ -12,9 +12,12 @@ PROMPT
 {$_POST['prompt']}
 END;
 
-// Prepare API request
-$api_key = 'AIzaSyB0RKqdyLcE2j8SPjbvGbJq4EcmX9nBzCc';
-$url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent";
+// Get API key from .env
+$api_key = $_ENV['API_KEY'];
+
+// Prepare request URL with API key
+$url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key={$api_key}";
+
 
 $headers = [
 	'Content-Type: application/json',
@@ -45,7 +48,7 @@ if (file_put_contents($log_file, "[$ip] Request at: $timestamp" . PHP_EOL, FILE_
 }
 
 // Save chat 
-require "../lib/connect_to_db.php";
+require_once "../lib/connect_to_db.php";
 $sql = "INSERT INTO chats (ip, prompt, response) VALUES (?, ?, ?)";
 queryDB($mysqli, $sql, "sss", $ip, $_POST['prompt'], $generatedText);
 $mysqli->close();

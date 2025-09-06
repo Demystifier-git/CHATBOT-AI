@@ -1,8 +1,8 @@
 <?php
-require "lib/utilities.php";
+require_once "lib/utilities.php";
 
 // fetch users
-require "lib/connect_to_db.php";
+require_once "lib/connect_to_db.php";
 $sql = "SELECT DISTINCT ip FROM chats";
 $users = queryDB($mysqli, $sql);
 $mysqli->close();
