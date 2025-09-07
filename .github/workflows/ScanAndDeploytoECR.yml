@@ -37,6 +37,15 @@ jobs:
           
           echo "FRONTEND_URI=$FRONTEND_URI" >> $GITHUB_ENV
 
+      
+      - name: Install Trivy
+        run: |
+          sudo apt-get update -y
+          sudo apt-get install -y wget
+          wget https://github.com/aquasecurity/trivy/releases/latest/download/trivy_0.55.0_Linux-64bit.deb
+          sudo dpkg -i trivy_0.55.0_Linux-64bit.deb
+
+
       - name: Scan Frontend (Vulnerabilities + Secrets)
         run: |
           trivy image --exit-code 1 --format json -o chatbotai-vuln-report.json $FRONTEND_URI
