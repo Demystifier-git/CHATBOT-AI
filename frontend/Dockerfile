@@ -1,5 +1,5 @@
 # Stage 1: Builder
-FROM php:8.2-apache-bullseye AS builder
+FROM php:8.2-apache-bookworm AS builder
 
 # Install build deps
 RUN apt-get update && apt-get install -y \
@@ -21,7 +21,7 @@ WORKDIR /var/www/html
 COPY . .
 
 # Stage 2: Runtime (slim, no build tools)
-FROM php:8.2-apache-bullseye AS runtime
+FROM php:8.2-apache-bookworm AS runtime
 
 # Install only runtime deps (not build tools)
 RUN apt-get update && apt-get install -y \
