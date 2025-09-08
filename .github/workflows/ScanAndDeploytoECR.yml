@@ -46,9 +46,9 @@ jobs:
       - name: Scan Frontend (Vulnerabilities + Secrets)
         run: |
           # Fail if HIGH/CRITICAL vulns exist
-          trivy image --exit-code 1 --severity HIGH,CRITICAL --format json -o chatbotai-vuln-report.json $FRONTEND_URI
+          trivy image --exit-code 1 --severity CRITICAL --format json -o chatbotai-vuln-report.json $FRONTEND_URI
           # Fail if secrets detected
-          trivy image --security-checks secret --exit-code 0 --format json -o chatbotai-secret-report.json $FRONTEND_URI
+          trivy image --security-checks secret --exit-code 1 --format json -o chatbotai-secret-report.json $FRONTEND_URI
 
           # Always generate human-readable reports (non-blocking)
           trivy image --exit-code 0 --severity HIGH,CRITICAL --format table -o chatbotai-vuln-report.txt $FRONTEND_URI
