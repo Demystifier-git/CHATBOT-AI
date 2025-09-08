@@ -1,5 +1,5 @@
 # Stage 1: Builder
-FROM php:8.2-apache-bullseye AS builder
+FROM php:8.2-apache-bookworm AS builder
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
     libpng-dev \
@@ -17,7 +17,7 @@ WORKDIR /var/www/html
 COPY . .
 
 # Stage 2: Runtime
-FROM php:8.2-apache-bullseye AS runtime
+FROM php:8.2-apache-bookworm AS runtime
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
     libpng16-16 \
