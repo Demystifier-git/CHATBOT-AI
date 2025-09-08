@@ -31,9 +31,11 @@ jobs:
           FRONTEND_URI=public.ecr.aws/a0l9x4c2/project:chatbotai-$IMAGE_TAG
           
           docker build \
+             --pull --no-cache 
             -t $FRONTEND_URI \
             -f ./frontend/Dockerfile \
             ./frontend
+         
           
           echo "FRONTEND_URI=$FRONTEND_URI" >> $GITHUB_ENV
 
