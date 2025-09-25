@@ -1,0 +1,167 @@
+Chatbot AI Deployment on AWS 
+
+This project demonstrates how to deploy a production-ready chatbot AI application on AWS using ECS Fargate, RDS MySQL, and a complete CI/CD pipeline. The deployment is secured with IAM roles, Route53, ACM, and a load balancer, with automated scans and monitoring.
+
+  Architecture Overview
+
+Source Control & CI/CD
+
+Code hosted on GitHub.
+
+CI/CD pipeline with GitHub Actions.
+
+SonarCloud → static code analysis.
+
+Docker → containerization of the chatbot application.
+
+Trivy → vulnerability scanning of built images.
+
+Pushes final image to Amazon ECR.
+
+Application Infrastructure
+
+VPC with both public and private subnets.
+
+ECS Fargate cluster deployed into private subnets.
+
+RDS MySQL database in private subnet.
+
+NAT Gateway → ECS tasks can reach the internet for updates.
+
+IAM roles used for secure ECS ↔ RDS access.
+
+Networking & Security
+
+Route53 hosted zone with a domain name.
+
+ACM issues SSL/TLS certificate.
+
+Application Load Balancer (ALB) in public subnets terminates TLS and routes traffic to ECS tasks.
+
+Domain name points to the ALB for browser access.
+
+Scaling & Monitoring
+
+ECS Service Auto Scaling → exponential scaling based on CloudWatch metrics.
+
+RDS scaling implemented via a Python script that deploys a Lambda function.
+
+CloudWatch for logs & metrics.
+
+SNS notifications for alerts.
+
+Load testing used to validate scaling under stress.
+
+  Setup Instructions
+1. Prerequisites
+
+AWS Account with IAM admin access.
+
+Domain name managed by Route53.
+
+Installed locally:
+
+Docker
+
+AWS CLI
+
+Terraform
+ or CloudFormation
+
+SonarCloud Account
+
+Trivy
+
+2. CI/CD Pipeline
+
+Push code to GitHub.
+
+GitHub Actions workflow:
+
+Run tests.
+
+Run SonarCloud scan.
+
+Build Docker image.
+
+Run Trivy vulnerability scan.
+
+Push image to Amazon ECR.
+
+Trigger ECS deployment update.
+
+3. Infrastructure Setup
+
+VPC Creation
+
+Create VPC with public/private subnets.
+
+Attach Internet Gateway + NAT Gateway.
+
+ECS Setup
+
+Create ECS Fargate cluster in private subnets.
+
+Create service/task definition referencing the ECR image.
+
+Assign IAM roles for secure RDS access.
+
+RDS Setup
+
+Create RDS MySQL instance in private subnets.
+
+Configure DB scaling Lambda function (written in Python).
+
+Networking & Security
+
+Create ALB in public subnets.
+
+Attach ACM SSL cert.
+
+Configure Route53 record pointing domain → ALB DNS.
+
+4. Monitoring & Scaling
+
+CloudWatch: Configure dashboards, alarms, and metrics for ECS & RDS.
+
+SNS: Subscribe email/SMS for alerts.
+
+Auto Scaling:
+
+ECS → CPU/Memory utilization scaling policies.
+
+RDS → Python Lambda scaling handler.
+
+5. Load Testing
+
+Use k6, Locust, or JMeter to generate traffic against the ALB domain.
+
+Observe scaling behavior and CloudWatch metrics.
+
+   Project Highlights
+
+End-to-end deployment pipeline with security scans (SonarCloud + Trivy).
+
+ECS Fargate for containerized workloads.
+
+RDS MySQL in private subnets for secure data persistence.
+
+NAT Gateway ensures controlled internet egress.
+
+Route53 + ACM + ALB for HTTPS public access.
+
+Exponential scaling of ECS and RDS with CloudWatch + Lambda automation.
+
+Monitoring & Alerts integrated via CloudWatch + SNS.
+
+  Future Enhancements
+
+Add multi-region failover.
+
+Replace ALB with API Gateway + WAF for advanced security.
+
+Use Service Mesh (App Mesh/Istio) for observability.
+
+  License
+
+This project is for educational & portfolio purposes. Customize and extend as needed.
